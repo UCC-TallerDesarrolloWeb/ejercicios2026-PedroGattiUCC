@@ -21,10 +21,10 @@
 -  [ ] Listas
 -  [x] Link
 -  [x] Tablas I
--  [ ] Tablas II
--  [ ] Tablas III
--  [ ] Tablas VI
--  [ ] Comentarios
+-  [x] Tablas II
+-  [x] Tablas III
+-  [x] Tablas VI
+-  [x] Comentarios
 -  [ ] Formulario
 -  [ ] Accesibilidad
 -  [x] Multimedia
