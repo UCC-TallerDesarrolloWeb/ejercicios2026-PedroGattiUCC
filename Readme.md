@@ -9,7 +9,7 @@
 # Checklist de Ejercicios OBLIGATORIOS por unidad
 
 ## Unidad 1: Introducción y Herramientas de Desarrollo
--  [ ] Readme.md
+-  [x] Readme.md
 -  [ ] .gitignore
 
 ## Unidad 2: Fundamentos de HTML5 y CSS3
@@ -107,14 +107,18 @@
 
 ### Ejercicio Readme.md
 
-- Agregar títulos secundarios:
-- Autor
-- Contenido/Descripción
-- Agregar los autores con items
-- Poner los apellidos de los autores en negrita
-- Agregar un link del aula virtual
-- Agregar info de contacto en una tabla
-- Agregar emoji
+## Autor 👨‍💻
+- Pedro **Gatti** - Legajo: 2519717
+
+## Contenido / Descripción 📚
+Repositorio oficial para el cursado y resolución de actividades prácticas de la materia **Desarrollo Web** (Segundo Año, Semestre 2) en la carrera de Ingeniería Informática de la [Universidad Católica de Córdoba](https://ucc.edu.ar).
+
+🔗 **Aula Virtual:** [Aula Virtual UCC - Desarrollo Web](https://presencial.ucc.edu.ar/course/view.php?id=15191)
+
+## Información de Contacto ✉️
+| Nombre | Apellido | Correo Institucional | GitHub |
+| :--- | :--- | :--- | :--- |
+| Pedro | **Gatti** | [2519717@ucc.edu.ar](mailto:2519717@ucc.edu.ar) | [@PedroGattiUCC](https://github.com/PedroGattiUCC) |
 
 ### Ejercicio: .gitignore
 
