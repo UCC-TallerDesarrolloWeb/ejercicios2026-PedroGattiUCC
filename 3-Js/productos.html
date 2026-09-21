@@ -23,6 +23,42 @@
 
     <main class="centrado">
         <h2 style="text-align: center;">Catálogo de Productos</h2>
+
+        <section class="seccion-filtros" style="margin-bottom: 25px; padding: 15px; border: 1px solid #ccc; border-radius: 8px;">
+            <h3 style="margin-top: 0;">Filtros de Búsqueda</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 15px; align-items: center;">
+                <div>
+                    <label for="filtroPalabra"><strong>Buscar:</strong></label>
+                    <input type="text" id="filtroPalabra" placeholder="Palabra clave..." oninput="filtrarProductos()">
+                </div>
+                <div>
+                    <label for="precioMin"><strong>Precio mín:</strong></label>
+                    <input type="number" id="precioMin" placeholder="0" min="0" oninput="filtrarProductos()" style="width: 100px;">
+                </div>
+                <div>
+                    <label for="precioMax"><strong>Precio máx:</strong></label>
+                    <input type="number" id="precioMax" placeholder="Máx" min="0" oninput="filtrarProductos()" style="width: 100px;">
+                </div>
+                <div>
+                    <label for="filtroMarca"><strong>Marca:</strong></label>
+                    <select id="filtroMarca" onchange="filtrarProductos()">
+                        <option value="">Todas</option>
+                        <option value="Gran Marc">Gran Marc</option>
+                        <option value="Daedo">Daedo</option>
+                    </select>
+                </div>
+                <div>
+                    <strong>Categoría:</strong>
+                    <label style="margin-left: 5px;"><input type="checkbox" name="filtroCategoria" value="Protectores" onchange="filtrarProductos()"> Protectores</label>
+                    <label style="margin-left: 5px;"><input type="checkbox" name="filtroCategoria" value="Dobok" onchange="filtrarProductos()"> Dobok</label>
+                    <label style="margin-left: 5px;"><input type="checkbox" name="filtroCategoria" value="Entrenamiento" onchange="filtrarProductos()"> Entrenamiento</label>
+                </div>
+                <div>
+                    <button type="button" onclick="limpiarFiltros()">Limpiar filtros</button>
+                </div>
+            </div>
+        </section>
+
         <div id="contenedorProductos" class="contenedor-productos"></div>
     </main>
 

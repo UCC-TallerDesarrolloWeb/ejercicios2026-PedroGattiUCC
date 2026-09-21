@@ -222,28 +222,109 @@ let calcularDivision = () => {
 };
 
 /**
- * Carga y renderiza dinámicamente las tarjetas de productos desde el array productos
+ * Carga y renderiza dinámicamente las tarjetas de productos en el contenedor
  * @method cargarProductos
+ * @param {Array<Object>} [lista=productos] - Lista de productos a renderizar (por defecto todo el catálogo)
  * @return {void} No retorna ningún valor
  */
-let cargarProductos = () => {
+let cargarProductos = (lista = (typeof productos !== "undefined" ? productos : [])) => {
     const contenedor = document.getElementById("contenedorProductos");
-    if (!contenedor || typeof productos === "undefined") return;
+    if (!contenedor) return;
+
+    if (lista.length === 0) {
+        contenedor.innerHTML = "<p style='text-align: center; grid-column: 1 / -1;'>No se encontraron productos que coincidan con los filtros aplicados.</p>";
+        return;
+    }
 
     let contenidoHTML = "";
-    productos.forEach((prod, index) => {
+    lista.forEach((prod) => {
+        const originalIndex = typeof productos !== "undefined" ? productos.indexOf(prod) : -1;
         const rutaImg = prod.imagen.startsWith("images/") ? prod.imagen : `images/${prod.imagen}`;
         contenidoHTML += `
             <div class="tarjeta-producto">
                 <img src="${rutaImg}" alt="${prod.nombre}">
                 <h3>${prod.nombre}</h3>
                 <p><strong>Precio:</strong> $${prod.precio}</p>
-                <button type="button" onclick="abrirDialog(${index})">Ver detalle de Producto</button>
-                <button type="button" onclick="agregarAlCarrito(${index})">Agregar al carrito</button>
+                <button type="button" onclick="abrirDialog(${originalIndex})">Ver detalle de Producto</button>
+                <button type="button" onclick="agregarAlCarrito(${originalIndex})">Agregar al carrito</button>
             </div>
         `;
     });
     contenedor.innerHTML = contenidoHTML;
+};
+
+/**
+ * Filtra el catálogo de productos aplicando el método Array.filter según texto, rango de precio, marca y categorías seleccionadas
+ * @method filtrarProductos
+ * @return {void} No retorna ningún valor
+ */
+let filtrarProductos = () => {
+    if (typeof productos === "undefined") return;
+
+    const palabra = (document.getElementById("filtroPalabra")?.value || "").trim().toLowerCase();
+    const minVal = document.getElementById("precioMin")?.value;
+    const maxVal = document.getElementById("precioMax")?.value;
+    const precioMin = minVal !== "" && !isNaN(Number(minVal)) ? Number(minVal) : null;
+    const precioMax = maxVal !== "" && !isNaN(Number(maxVal)) ? Number(maxVal) : null;
+    const marca = document.getElementById("filtroMarca")?.value || "";
+
+    const checkboxes = document.querySelectorAll("input[name='filtroCategoria']:checked");
+    const categoriasSeleccionadas = Array.from(checkboxes).map((cb) => cb.value);
+
+    const filtrados = productos.filter((prod) => {
+        // Filtrar por palabra en nombre o descripción
+        if (palabra && !prod.nombre.toLowerCase().includes(palabra) && !prod.description.toLowerCase().includes(palabra)) {
+            return false;
+        }
+
+        // Filtrar por precio mínimo
+        if (precioMin !== null && prod.precio < precioMin) {
+            return false;
+        }
+
+        // Filtrar por precio máximo
+        if (precioMax !== null && prod.precio > precioMax) {
+            return false;
+        }
+
+        // Filtrar por marca
+        if (marca && prod.marca !== marca) {
+            return false;
+        }
+
+        // Filtrar por categoría (si hay alguna seleccionada)
+        if (categoriasSeleccionadas.length > 0 && !categoriasSeleccionadas.includes(prod.categoria)) {
+            return false;
+        }
+
+        return true;
+    });
+
+    cargarProductos(filtrados);
+};
+
+/**
+ * Restablece todos los campos de filtros y muestra el catálogo completo
+ * @method limpiarFiltros
+ * @return {void} No retorna ningún valor
+ */
+let limpiarFiltros = () => {
+    const inputPalabra = document.getElementById("filtroPalabra");
+    if (inputPalabra) inputPalabra.value = "";
+
+    const inputMin = document.getElementById("precioMin");
+    if (inputMin) inputMin.value = "";
+
+    const inputMax = document.getElementById("precioMax");
+    if (inputMax) inputMax.value = "";
+
+    const selectMarca = document.getElementById("filtroMarca");
+    if (selectMarca) selectMarca.value = "";
+
+    const checkboxes = document.querySelectorAll("input[name='filtroCategoria']");
+    checkboxes.forEach((cb) => { cb.checked = false; });
+
+    cargarProductos(productos);
 };
 
 /**
