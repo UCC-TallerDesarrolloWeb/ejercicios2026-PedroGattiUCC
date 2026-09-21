@@ -198,3 +198,26 @@ let calcularDivision = () => {
         document.getElementById("totalD").value = Number(num1) / Number(num2);
     }
 };
+
+/**
+ * Carga y renderiza dinámicamente las tarjetas de productos desde el array productos
+ * @method cargarProductos
+ * @return {void} No retorna ningún valor
+ */
+let cargarProductos = () => {
+    const contenedor = document.getElementById("contenedorProductos");
+    if (!contenedor || typeof productos === "undefined") return;
+
+    let contenidoHTML = "";
+    productos.forEach((prod, index) => {
+        contenidoHTML += `
+            <div class="tarjeta-producto">
+                <img src="${prod.imagen}" alt="${prod.nombre}" onerror="this.style.display='none'">
+                <h3>${prod.nombre}</h3>
+                <p><strong>Precio:</strong> $${prod.precio}</p>
+                <button type="button" onclick="abrirDialog()">Ver detalle de Producto</button>
+            </div>
+        `;
+    });
+    contenedor.innerHTML = contenidoHTML;
+};
