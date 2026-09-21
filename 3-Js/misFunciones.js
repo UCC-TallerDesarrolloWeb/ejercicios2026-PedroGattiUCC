@@ -236,8 +236,53 @@ let cargarProductos = () => {
                 <h3>${prod.nombre}</h3>
                 <p><strong>Precio:</strong> $${prod.precio}</p>
                 <button type="button" onclick="abrirDialog(${index})">Ver detalle de Producto</button>
+                <button type="button" onclick="agregarAlCarrito(${index})">Agregar al carrito</button>
             </div>
         `;
     });
+    contenedor.innerHTML = contenidoHTML;
+};
+
+/**
+ * Agrega un producto seleccionado al array del carrito y lo persiste en localStorage
+ * @method agregarAlCarrito
+ * @param {number} index - Posición del producto en el array productos
+ * @return {void} No retorna ningún valor
+ */
+let agregarAlCarrito = (index) => {
+    if (typeof productos === "undefined" || !productos[index]) return;
+
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    carrito.push(productos[index]);
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+    alert(`Se agregó "${productos[index].nombre}" al carrito.`);
+};
+
+/**
+ * Carga y renderiza el listado de productos del carrito guardados en localStorage
+ * @method cargarCarrito
+ * @return {void} No retorna ningún valor
+ */
+let cargarCarrito = () => {
+    const contenedor = document.getElementById("contenedorCarrito");
+    if (!contenedor) return;
+
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    if (carrito.length === 0) {
+        contenedor.innerHTML = "<p style='text-align:center;'>El carrito de compras está vacío.</p>";
+        return;
+    }
+
+    let contenidoHTML = "<div class='contenedor-productos'>";
+    carrito.forEach((prod) => {
+        contenidoHTML += `
+            <div class="tarjeta-producto">
+                <img src="${prod.imagen}" alt="${prod.nombre}" onerror="this.style.display='none'">
+                <h3>${prod.nombre}</h3>
+                <p><strong>Precio:</strong> $${prod.precio}</p>
+            </div>
+        `;
+    });
+    contenidoHTML += "</div>";
     contenedor.innerHTML = contenidoHTML;
 };

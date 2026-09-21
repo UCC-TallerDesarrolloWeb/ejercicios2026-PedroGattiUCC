@@ -2,38 +2,32 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Productos</title>
+    <title>Carrito de Compras</title>
     <link href="https://fonts.googleapis.com/css?family=Inknut+Antiqua" rel="stylesheet">
     <link href="miEstilo.css" type="text/css" rel="stylesheet">
-    <script type="text/javascript" src="tienda.js"></script>
     <script type="text/javascript" src="misFunciones.js"></script>
 </head>
-<body onload="cargarProductos()">
+<body onload="cargarCarrito()">
 
     <header>
         <h1 style="text-align: center;">Tienda Online</h1>
         <nav>
             <ul style="margin: 10px auto;">
                 <li><a href="index.html">Inicio</a></li>
-                <li><a href="productos.html" class="active">Catálogo</a></li>
-                <li><a href="carrito.html">Carrito de Compras</a></li>
+                <li><a href="productos.html">Catálogo</a></li>
+                <li><a href="carrito.html" class="active">Carrito de Compras</a></li>
             </ul>
         </nav>
     </header>
 
     <main class="centrado">
-        <h2 style="text-align: center;">Catálogo de Productos</h2>
-        <div id="contenedorProductos" class="contenedor-productos"></div>
+        <h2 style="text-align: center;">Carrito de Compras</h2>
+        <div id="contenedorCarrito"></div>
     </main>
 
     <footer>
         <p style="text-align: center; margin-top: 30px; font-size: 12px;">&copy; 2026 Tienda Online - UCC</p>
     </footer>
-
-    <dialog id="modalProducto">
-        <h2>Detalle del Producto</h2>
-        <button type="button" onclick="cerrarDialog()">Cerrar</button>
-    </dialog>
 
 </body>
 </html>
