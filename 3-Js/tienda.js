@@ -61,3 +61,37 @@ const productos = [
     imagen: "protectores-pie.webp",
   },
 ];
+
+/**
+ * Renderiza dinámicamente las tarjetas de los productos en el catálogo
+ * @method mostrarCatalogo
+ * @param {Array<Object>} [lista=productos] - Lista de productos a renderizar (por defecto todo el catálogo)
+ * @return {void} No retorna ningún valor
+ */
+let mostrarCatalogo = (lista = productos) => {
+    let contenido = document.getElementById("contenedorProductos");
+    if (!contenido) return;
+
+    if (lista.length === 0) {
+        contenido.innerHTML = "<p style='text-align: center; grid-column: 1 / -1;'>No se encontraron productos que coincidan con los filtros aplicados.</p>";
+        return;
+    }
+
+    let contenidoHTML = "";
+    lista.forEach((prod) => {
+        const index = productos.indexOf(prod);
+        const rutaImg = prod.imagen.startsWith("images/") ? prod.imagen : `images/${prod.imagen}`;
+        contenidoHTML += `
+            <div class="tarjeta-producto">
+                <img src="${rutaImg}" alt="${prod.nombre}">
+                <h3>${prod.nombre}</h3>
+                <p><strong>Precio:</strong> $${prod.precio}</p>
+                <button type="button" onclick="abrirDialog(${index})">Ver detalle de Producto</button>
+                <button type="button" onclick="agregarAlCarrito(${index})">Agregar al carrito</button>
+            </div>
+        `;
+    });
+
+    contenido.innerHTML = contenidoHTML;
+};
+

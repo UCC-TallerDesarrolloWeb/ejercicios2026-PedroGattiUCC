@@ -227,30 +227,10 @@ let calcularDivision = () => {
  * @param {Array<Object>} [lista=productos] - Lista de productos a renderizar (por defecto todo el catálogo)
  * @return {void} No retorna ningún valor
  */
-let cargarProductos = (lista = (typeof productos !== "undefined" ? productos : [])) => {
-    const contenedor = document.getElementById("contenedorProductos");
-    if (!contenedor) return;
-
-    if (lista.length === 0) {
-        contenedor.innerHTML = "<p style='text-align: center; grid-column: 1 / -1;'>No se encontraron productos que coincidan con los filtros aplicados.</p>";
-        return;
+let cargarProductos = (lista) => {
+    if (typeof mostrarCatalogo === "function") {
+        mostrarCatalogo(lista);
     }
-
-    let contenidoHTML = "";
-    lista.forEach((prod) => {
-        const originalIndex = typeof productos !== "undefined" ? productos.indexOf(prod) : -1;
-        const rutaImg = prod.imagen.startsWith("images/") ? prod.imagen : `images/${prod.imagen}`;
-        contenidoHTML += `
-            <div class="tarjeta-producto">
-                <img src="${rutaImg}" alt="${prod.nombre}">
-                <h3>${prod.nombre}</h3>
-                <p><strong>Precio:</strong> $${prod.precio}</p>
-                <button type="button" onclick="abrirDialog(${originalIndex})">Ver detalle de Producto</button>
-                <button type="button" onclick="agregarAlCarrito(${originalIndex})">Agregar al carrito</button>
-            </div>
-        `;
-    });
-    contenedor.innerHTML = contenidoHTML;
 };
 
 /**
