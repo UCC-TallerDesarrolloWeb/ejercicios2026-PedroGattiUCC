@@ -30,13 +30,13 @@
 -  [x] Multimedia
 
 ### CSS
--  [ ] Propiedades tipográficas
--  [ ] Incrustado
--  [ ] Estilo con Descendientes
--  [ ] Pseudo Clases
--  [ ] CV
--  [ ] Backgrounds
--  [ ] Position
+-  [x] Propiedades tipográficas
+-  [x] Incrustado
+-  [x] Estilo con Descendientes
+-  [x] Pseudo Clases
+-  [x] CV
+-  [x] Backgrounds
+-  [x] Position
 -  [ ] 2 Columnas
 -  [ ] Grid
 -  [ ] grid-areas
