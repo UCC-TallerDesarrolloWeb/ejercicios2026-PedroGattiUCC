@@ -105,9 +105,11 @@ let abrirDialog = (index) => {
         const prod = productos[index];
         const talles = Array.isArray(prod.talle) ? prod.talle.join(", ") : (prod.talle || "s/talle");
 
+        const rutaImg = prod.imagen.startsWith("images/") ? prod.imagen : `images/${prod.imagen}`;
+
         dialog.innerHTML = `
             <h2>Detalle del Producto</h2>
-            <img src="${prod.imagen}" alt="${prod.nombre}" onerror="this.style.display='none'" style="max-width: 150px; display: block; margin: 10px auto;">
+            <img src="${rutaImg}" alt="${prod.nombre}" style="max-width: 150px; display: block; margin: 10px auto;">
             <p><strong>Nombre:</strong> ${prod.nombre}</p>
             <p><strong>Descripción:</strong> ${prod.description}</p>
             <p><strong>Categoría:</strong> ${prod.categoria}</p>
@@ -230,9 +232,10 @@ let cargarProductos = () => {
 
     let contenidoHTML = "";
     productos.forEach((prod, index) => {
+        const rutaImg = prod.imagen.startsWith("images/") ? prod.imagen : `images/${prod.imagen}`;
         contenidoHTML += `
             <div class="tarjeta-producto">
-                <img src="${prod.imagen}" alt="${prod.nombre}" onerror="this.style.display='none'">
+                <img src="${rutaImg}" alt="${prod.nombre}">
                 <h3>${prod.nombre}</h3>
                 <p><strong>Precio:</strong> $${prod.precio}</p>
                 <button type="button" onclick="abrirDialog(${index})">Ver detalle de Producto</button>
@@ -275,9 +278,10 @@ let cargarCarrito = () => {
 
     let contenidoHTML = "<div class='contenedor-productos'>";
     carrito.forEach((prod) => {
+        const rutaImg = prod.imagen.startsWith("images/") ? prod.imagen : `images/${prod.imagen}`;
         contenidoHTML += `
             <div class="tarjeta-producto">
-                <img src="${prod.imagen}" alt="${prod.nombre}" onerror="this.style.display='none'">
+                <img src="${rutaImg}" alt="${prod.nombre}">
                 <h3>${prod.nombre}</h3>
                 <p><strong>Precio:</strong> $${prod.precio}</p>
             </div>
