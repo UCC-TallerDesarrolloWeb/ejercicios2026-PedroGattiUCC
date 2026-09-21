@@ -262,6 +262,29 @@ let agregarAlCarrito = (index) => {
 };
 
 /**
+ * Elimina un producto individual del carrito según su índice en el array usando splice
+ * @method eliminarDelCarrito
+ * @param {number} index - Posición del elemento a eliminar en el array carrito
+ * @return {void} No retorna ningún valor
+ */
+let eliminarDelCarrito = (index) => {
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    carrito.splice(index, 1);
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+    cargarCarrito();
+};
+
+/**
+ * Vacía por completo el carrito de compras utilizando localStorage.removeItem
+ * @method vaciarCarrito
+ * @return {void} No retorna ningún valor
+ */
+let vaciarCarrito = () => {
+    localStorage.removeItem("carrito");
+    cargarCarrito();
+};
+
+/**
  * Carga y renderiza el listado de productos del carrito guardados en localStorage
  * @method cargarCarrito
  * @return {void} No retorna ningún valor
@@ -271,19 +294,25 @@ let cargarCarrito = () => {
     if (!contenedor) return;
 
     let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    const btnVaciar = document.getElementById("btnVaciarCarrito");
+    if (btnVaciar) {
+        btnVaciar.disabled = (carrito.length === 0);
+    }
+
     if (carrito.length === 0) {
         contenedor.innerHTML = "<p style='text-align:center;'>El carrito de compras está vacío.</p>";
         return;
     }
 
     let contenidoHTML = "<div class='contenedor-productos'>";
-    carrito.forEach((prod) => {
+    carrito.forEach((prod, index) => {
         const rutaImg = prod.imagen.startsWith("images/") ? prod.imagen : `images/${prod.imagen}`;
         contenidoHTML += `
             <div class="tarjeta-producto">
                 <img src="${rutaImg}" alt="${prod.nombre}">
                 <h3>${prod.nombre}</h3>
                 <p><strong>Precio:</strong> $${prod.precio}</p>
+                <button type="button" onclick="eliminarDelCarrito(${index})">Eliminar</button>
             </div>
         `;
     });
