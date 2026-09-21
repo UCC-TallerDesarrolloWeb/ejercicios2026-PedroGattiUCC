@@ -110,3 +110,91 @@ let cerrarDialog = () => {
     const dialog = document.getElementById("modalProducto");
     dialog.close();
 };
+
+/**
+ * Realiza la suma de dos números ingresados en los inputs
+ * @method calcularSuma
+ * @return {void} No retorna ningún valor
+ */
+let calcularSuma = () => {
+    let num1 = document.getElementById("nums1").value;
+    let num2 = document.getElementById("nums2").value;
+
+    if (num1.includes(",")) num1 = num1.replace(",", ".");
+    if (num2.includes(",")) num2 = num2.replace(",", ".");
+
+    if (isNaN(num1) || isNaN(num2)) {
+        alert("Se ingresó un valor inválido");
+        document.getElementById("nums1").value = "";
+        document.getElementById("nums2").value = "";
+        document.getElementById("totalS").value = "";
+    } else if (num1 !== "" && num2 !== "") {
+        document.getElementById("totalS").value = Number(num1) + Number(num2);
+    }
+};
+
+/**
+ * Realiza la resta de dos números ingresados en los inputs
+ * @method calcularResta
+ * @return {void} No retorna ningún valor
+ */
+let calcularResta = () => {
+    let num1 = document.getElementById("numr1").value;
+    let num2 = document.getElementById("numr2").value;
+
+    if (num1.includes(",")) num1 = num1.replace(",", ".");
+    if (num2.includes(",")) num2 = num2.replace(",", ".");
+
+    if (isNaN(num1) || isNaN(num2)) {
+        alert("Se ingresó un valor inválido");
+        document.getElementById("numr1").value = "";
+        document.getElementById("numr2").value = "";
+        document.getElementById("totalR").value = "";
+    } else if (num1 !== "" && num2 !== "") {
+        document.getElementById("totalR").value = Number(num1) - Number(num2);
+    }
+};
+
+/**
+ * Realiza la multiplicación de dos números ingresados en los inputs
+ * @method calcularMultiplicacion
+ * @return {void} No retorna ningún valor
+ */
+let calcularMultiplicacion = () => {
+    let num1 = document.getElementById("numm1").value;
+    let num2 = document.getElementById("numm2").value;
+
+    if (num1.includes(",")) num1 = num1.replace(",", ".");
+    if (num2.includes(",")) num2 = num2.replace(",", ".");
+
+    if (isNaN(num1) || isNaN(num2)) {
+        alert("Se ingresó un valor inválido");
+        document.getElementById("numm1").value = "";
+        document.getElementById("numm2").value = "";
+        document.getElementById("totalM").value = "";
+    } else if (num1 !== "" && num2 !== "") {
+        document.getElementById("totalM").value = Number(num1) * Number(num2);
+    }
+};
+
+/**
+ * Realiza la división de dos números ingresados en los inputs
+ * @method calcularDivision
+ * @return {void} No retorna ningún valor
+ */
+let calcularDivision = () => {
+    let num1 = document.getElementById("numd1").value;
+    let num2 = document.getElementById("numd2").value;
+
+    if (num1.includes(",")) num1 = num1.replace(",", ".");
+    if (num2.includes(",")) num2 = num2.replace(",", ".");
+
+    if (isNaN(num1) || isNaN(num2)) {
+        alert("Se ingresó un valor inválido");
+        document.getElementById("numd1").value = "";
+        document.getElementById("numd2").value = "";
+        document.getElementById("totalD").value = "";
+    } else if (num1 !== "" && num2 !== "") {
+        document.getElementById("totalD").value = Number(num1) / Number(num2);
+    }
+};
