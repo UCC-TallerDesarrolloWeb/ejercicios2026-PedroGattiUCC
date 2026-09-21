@@ -90,3 +90,23 @@ let mostrarOcultar = (valor) => {
         document.getElementById("unDiv").style.display = "none";
     }
 };
+
+/**
+ * Abre el dialog modal en productos.html
+ * @method abrirDialog
+ * @return {void} No retorna ningún valor
+ */
+let abrirDialog = () => {
+    const dialog = document.getElementById("modalProducto");
+    dialog.showModal();
+};
+
+/**
+ * Cierra el dialog modal en productos.html
+ * @method cerrarDialog
+ * @return {void} No retorna ningún valor
+ */
+let cerrarDialog = () => {
+    const dialog = document.getElementById("modalProducto");
+    dialog.close();
+};

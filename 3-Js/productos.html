@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Productos</title>
+    <link href="https://fonts.googleapis.com/css?family=Inknut+Antiqua" rel="stylesheet">
+    <link href="miEstilo.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="misFunciones.js"></script>
+</head>
+<body>
+
+    <div class="centrado div-conver">
+        <h1>Catálogo de Productos</h1>
+        <div class="tarjeta-producto">
+            <h2>Cabezal Sparring</h2>
+            <p>Precio: $35.000</p>
+            <button type="button" onclick="abrirDialog()">Ver detalle de Producto</button>
+        </div>
+    </div>
+
+    <dialog id="modalProducto">
+        <h2>Detalle del Producto</h2>
+        <p><strong>Nombre:</strong> Cabezal Sparring</p>
+        <p><strong>Descripción:</strong> Cabezal de Sparring cerrado aprobado para entrenamientos y competencias.</p>
+        <p><strong>Categoría:</strong> Protectores</p>
+        <p><strong>Marca:</strong> Gran Marc</p>
+        <p><strong>Precio:</strong> $35.000</p>
+        <button type="button" onclick="cerrarDialog()">Cerrar</button>
+    </dialog>
+
+</body>
+</html>
