@@ -92,12 +92,32 @@ let mostrarOcultar = (valor) => {
 };
 
 /**
- * Abre el dialog modal en productos.html
+ * Abre el dialog modal con el detalle dinámico del producto seleccionado
  * @method abrirDialog
+ * @param {number} index - Índice del producto seleccionado en el array productos
  * @return {void} No retorna ningún valor
  */
-let abrirDialog = () => {
+let abrirDialog = (index) => {
     const dialog = document.getElementById("modalProducto");
+    if (!dialog) return;
+
+    if (typeof productos !== "undefined" && productos[index]) {
+        const prod = productos[index];
+        const talles = Array.isArray(prod.talle) ? prod.talle.join(", ") : (prod.talle || "s/talle");
+
+        dialog.innerHTML = `
+            <h2>Detalle del Producto</h2>
+            <img src="${prod.imagen}" alt="${prod.nombre}" onerror="this.style.display='none'" style="max-width: 150px; display: block; margin: 10px auto;">
+            <p><strong>Nombre:</strong> ${prod.nombre}</p>
+            <p><strong>Descripción:</strong> ${prod.description}</p>
+            <p><strong>Categoría:</strong> ${prod.categoria}</p>
+            <p><strong>Marca:</strong> ${prod.marca}</p>
+            <p><strong>Talles:</strong> ${talles}</p>
+            <p><strong>Precio:</strong> $${prod.precio}</p>
+            <button type="button" onclick="cerrarDialog()">Cerrar</button>
+        `;
+    }
+
     dialog.showModal();
 };
 
@@ -215,7 +235,7 @@ let cargarProductos = () => {
                 <img src="${prod.imagen}" alt="${prod.nombre}" onerror="this.style.display='none'">
                 <h3>${prod.nombre}</h3>
                 <p><strong>Precio:</strong> $${prod.precio}</p>
-                <button type="button" onclick="abrirDialog()">Ver detalle de Producto</button>
+                <button type="button" onclick="abrirDialog(${index})">Ver detalle de Producto</button>
             </div>
         `;
     });
