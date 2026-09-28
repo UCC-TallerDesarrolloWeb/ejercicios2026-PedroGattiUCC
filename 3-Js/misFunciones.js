@@ -41,10 +41,10 @@ let convertirUnidades = (id, valor) => {
         pie = valor * 3;
     }
 
-    document.getElementById("metro").value = met;
-    document.getElementById("pulgada").value = pul;
-    document.getElementById("pie").value = pie;
-    document.getElementById("yarda").value = yar;
+    document.getElementById("metro").value = met !== "" ? Number(met).toFixed(2) : "";
+    document.getElementById("pulgada").value = pul !== "" ? Number(pul).toFixed(2) : "";
+    document.getElementById("pie").value = pie !== "" ? Number(pie).toFixed(2) : "";
+    document.getElementById("yarda").value = yar !== "" ? Number(yar).toFixed(2) : "";
 };
 
 /**
@@ -141,6 +141,7 @@ let cerrarDialog = () => {
 let calcularSuma = () => {
     let num1 = document.getElementById("nums1").value;
     let num2 = document.getElementById("nums2").value;
+    let totalEl = document.getElementById("totalS");
 
     if (num1.includes(",")) num1 = num1.replace(",", ".");
     if (num2.includes(",")) num2 = num2.replace(",", ".");
@@ -149,9 +150,10 @@ let calcularSuma = () => {
         alert("Se ingresó un valor inválido");
         document.getElementById("nums1").value = "";
         document.getElementById("nums2").value = "";
-        document.getElementById("totalS").value = "";
+        if (totalEl) totalEl.innerHTML = "";
     } else if (num1 !== "" && num2 !== "") {
-        document.getElementById("totalS").value = Number(num1) + Number(num2);
+        let res = Number(num1) + Number(num2);
+        if (totalEl) totalEl.innerHTML = res;
     }
 };
 
@@ -163,6 +165,7 @@ let calcularSuma = () => {
 let calcularResta = () => {
     let num1 = document.getElementById("numr1").value;
     let num2 = document.getElementById("numr2").value;
+    let totalEl = document.getElementById("totalR");
 
     if (num1.includes(",")) num1 = num1.replace(",", ".");
     if (num2.includes(",")) num2 = num2.replace(",", ".");
@@ -171,9 +174,10 @@ let calcularResta = () => {
         alert("Se ingresó un valor inválido");
         document.getElementById("numr1").value = "";
         document.getElementById("numr2").value = "";
-        document.getElementById("totalR").value = "";
+        if (totalEl) totalEl.innerHTML = "";
     } else if (num1 !== "" && num2 !== "") {
-        document.getElementById("totalR").value = Number(num1) - Number(num2);
+        let res = Number(num1) - Number(num2);
+        if (totalEl) totalEl.innerHTML = res;
     }
 };
 
@@ -185,6 +189,7 @@ let calcularResta = () => {
 let calcularMultiplicacion = () => {
     let num1 = document.getElementById("numm1").value;
     let num2 = document.getElementById("numm2").value;
+    let totalEl = document.getElementById("totalM");
 
     if (num1.includes(",")) num1 = num1.replace(",", ".");
     if (num2.includes(",")) num2 = num2.replace(",", ".");
@@ -193,9 +198,10 @@ let calcularMultiplicacion = () => {
         alert("Se ingresó un valor inválido");
         document.getElementById("numm1").value = "";
         document.getElementById("numm2").value = "";
-        document.getElementById("totalM").value = "";
+        if (totalEl) totalEl.innerHTML = "";
     } else if (num1 !== "" && num2 !== "") {
-        document.getElementById("totalM").value = Number(num1) * Number(num2);
+        let res = Number(num1) * Number(num2);
+        if (totalEl) totalEl.innerHTML = res;
     }
 };
 
@@ -207,6 +213,7 @@ let calcularMultiplicacion = () => {
 let calcularDivision = () => {
     let num1 = document.getElementById("numd1").value;
     let num2 = document.getElementById("numd2").value;
+    let totalEl = document.getElementById("totalD");
 
     if (num1.includes(",")) num1 = num1.replace(",", ".");
     if (num2.includes(",")) num2 = num2.replace(",", ".");
@@ -215,8 +222,9 @@ let calcularDivision = () => {
         alert("Se ingresó un valor inválido");
         document.getElementById("numd1").value = "";
         document.getElementById("numd2").value = "";
-        document.getElementById("totalD").value = "";
+        if (totalEl) totalEl.innerHTML = "";
     } else if (num1 !== "" && num2 !== "") {
-        document.getElementById("totalD").value = Number(num1) / Number(num2);
+        let res = Number(num1) / Number(num2);
+        if (totalEl) totalEl.innerHTML = res;
     }
 };
