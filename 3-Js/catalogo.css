@@ -1,0 +1,441 @@
+/* ==========================================================
+   ESTILOS GENERALES Y VARIABLES (Unidad 2 - CSS y CSS Avanzado)
+   ========================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+:root {
+    --color-primario: #991b1b;       /* Granate / Rojo artes marciales */
+    --color-primario-hover: #7f1d1d;
+    --color-secundario: #1e3a8a;     /* Azul marino elegante */
+    --color-secundario-hover: #172554;
+    --color-acento: #e11d48;
+    --color-fondo: #f8fafc;          /* Slate claro */
+    --color-superficie: #ffffff;
+    --color-texto: #1e293b;
+    --color-texto-muted: #64748b;
+    --color-borde: #e2e8f0;
+    --color-blanco: #ffffff;
+    --sombra-card: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    --sombra-elevada: 0 12px 20px -3px rgba(0, 0, 0, 0.12), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+    --radio-borde: 12px;
+    --fuente-principal: 'Montserrat', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    font-family: var(--fuente-principal);
+    line-height: 1.5;
+}
+
+/* ==========================================================
+   LAYOUT CON CSS GRID AREAS (Visto en clase)
+   ========================================================== */
+.grid-container {
+    display: grid;
+    grid-template-areas:
+        "header header header header"
+        "nav nav nav nav"
+        "aside main main main"
+        "footer footer footer footer";
+    gap: 20px;
+    max-width: 1280px;
+    margin: 20px auto;
+    padding: 0 15px;
+}
+
+/* Identificadores de área */
+.item1 { grid-area: header; }
+.item2 { grid-area: nav; }
+.item3 { grid-area: aside; }
+.item4 { grid-area: main; }
+.item5 { grid-area: footer; }
+
+/* ==========================================================
+   HEADER CON GRADIENTE Y SOMBRA DE TEXTO
+   ========================================================== */
+header.item1 {
+    background: linear-gradient(135deg, var(--color-primario) 0%, var(--color-secundario) 100%);
+    color: var(--color-blanco);
+    padding: 24px 20px;
+    border-radius: var(--radio-borde);
+    text-align: center;
+    font-size: 1.9rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.4);
+    box-shadow: var(--sombra-card);
+}
+
+/* ==========================================================
+   BARRA DE NAVEGACIÓN Y ENLACES (Transitions vistas en clase)
+   ========================================================== */
+nav.item2 {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    background-color: var(--color-superficie);
+    padding: 10px 15px;
+    border-radius: var(--radio-borde);
+    box-shadow: var(--sombra-card);
+    border: 1px solid var(--color-borde);
+}
+
+nav.item2 a {
+    text-decoration: none;
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 8px 16px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    /* Transición suave para evitar cambios abruptos */
+    transition: background-color 0.4s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+nav.item2 a:hover {
+    background-color: var(--color-secundario);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+nav.item2 a.activo {
+    background-color: var(--color-secundario);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#contador-carrito {
+    background-color: var(--color-blanco);
+    color: var(--color-primario);
+    font-weight: 700;
+    font-size: 0.8rem;
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-left: 4px;
+}
+
+/* ==========================================================
+   BARRA LATERAL DE FILTROS (ASIDE)
+   ========================================================== */
+aside.item3 {
+    background-color: var(--color-superficie);
+    padding: 18px;
+    border-radius: var(--radio-borde);
+    box-shadow: var(--sombra-card);
+    border: 1px solid var(--color-borde);
+    height: fit-content;
+}
+
+aside fieldset {
+    border: 1px solid var(--color-borde);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+    background-color: #fafbfc;
+}
+
+aside legend {
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: var(--color-secundario);
+    padding: 0 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+aside label {
+    font-size: 0.9rem;
+    color: var(--color-texto);
+    display: block;
+    margin-bottom: 4px;
+}
+
+aside input[type="text"],
+aside input[type="number"],
+aside select {
+    width: 100%;
+    padding: 8px 10px;
+    margin-top: 4px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    background-color: var(--color-blanco);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Pseudo-clase :focus */
+aside input[type="text"]:focus,
+aside input[type="number"]:focus,
+aside select:focus {
+    outline: none;
+    border-color: var(--color-secundario);
+    box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.15);
+}
+
+aside fieldset p {
+    margin-bottom: 8px;
+}
+
+aside fieldset p:last-child {
+    margin-bottom: 0;
+}
+
+aside input[type="checkbox"] {
+    accent-color: var(--color-primario);
+    margin-right: 6px;
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+aside fieldset label:has(input[type="checkbox"]) {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+/* Botón estilizado para vaciar carrito */
+.btn-vaciar {
+    width: 100%;
+    padding: 10px;
+    background-color: #dc2626;
+    color: var(--color-blanco);
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-vaciar:hover {
+    background-color: #b91c1c;
+    transform: translateY(-2px);
+}
+
+/* ==========================================================
+   CATÁLOGO PRINCIPAL Y TARJETAS (CSS Grid interno)
+   ========================================================== */
+main.item4 {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 18px;
+    align-items: stretch;
+}
+
+/* Tarjeta de producto individual */
+main.item4 > div {
+    background-color: var(--color-superficie);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-borde);
+    padding: 16px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: var(--sombra-card);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* Efecto hover interactivo */
+main.item4 > div:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--sombra-elevada);
+    border-color: #cbd5e1;
+}
+
+/* Imagen del producto */
+main.item4 > div img {
+    width: 100%;
+    height: 170px;
+    object-fit: contain;
+    margin-bottom: 12px;
+    padding: 6px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    transition: transform 0.3s ease;
+}
+
+main.item4 > div:hover img {
+    transform: scale(1.03);
+}
+
+/* Título de producto */
+main.item4 > div h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-texto);
+    margin-bottom: 8px;
+    min-height: 2.4em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Precio con estilo destacado */
+main.item4 > div p {
+    font-size: 1.15rem;
+    color: var(--color-primario);
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+/* Botones de acción en tarjetas */
+main.item4 > div button {
+    width: 100%;
+    padding: 9px 12px;
+    margin-top: 6px;
+    border: none;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+/* Botón secundario: Ver detalles */
+main.item4 > div button:first-of-type {
+    background-color: #f1f5f9;
+    color: var(--color-secundario);
+    border: 1px solid #cbd5e1;
+}
+
+main.item4 > div button:first-of-type:hover {
+    background-color: #e2e8f0;
+    color: var(--color-secundario-hover);
+}
+
+/* Botón primario: Agregar al carrito */
+main.item4 > div button:last-of-type {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+}
+
+main.item4 > div button:last-of-type:hover {
+    background-color: var(--color-primario-hover);
+    box-shadow: 0 4px 10px rgba(153, 27, 27, 0.25);
+}
+
+/* Botón eliminar en carrito */
+#mostrar-carrito button {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fca5a5;
+}
+
+#mostrar-carrito button:hover {
+    background-color: #ef4444;
+    color: var(--color-blanco);
+}
+
+/* ==========================================================
+   VENTANA MODAL (<dialog>) ESTILIZADA
+   ========================================================== */
+dialog#modal {
+    border: none;
+    border-radius: var(--radio-borde);
+    padding: 24px 28px;
+    max-width: 440px;
+    width: 90%;
+    margin: auto;
+    background: var(--color-superficie);
+    box-shadow: var(--sombra-elevada);
+}
+
+dialog#modal::backdrop {
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(2px);
+}
+
+dialog#modal h2 {
+    font-size: 1.3rem;
+    color: var(--color-secundario);
+    border-bottom: 2px solid var(--color-borde);
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+}
+
+dialog#modal h3 {
+    font-size: 1.15rem;
+    color: var(--color-primario);
+    margin-bottom: 8px;
+}
+
+dialog#modal p {
+    font-size: 0.95rem;
+    color: var(--color-texto-muted);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+dialog#modal button {
+    background-color: var(--color-secundario);
+    color: var(--color-blanco);
+    border: none;
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+}
+
+dialog#modal button:hover {
+    background-color: var(--color-secundario-hover);
+}
+
+/* ==========================================================
+   PIE DE PÁGINA (FOOTER)
+   ========================================================== */
+footer.item5 {
+    background-color: var(--color-superficie);
+    color: var(--color-texto-muted);
+    text-align: center;
+    padding: 16px;
+    border-radius: var(--radio-borde);
+    border: 1px solid var(--color-borde);
+    box-shadow: var(--sombra-card);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* ==========================================================
+   RESPONSIVE DESIGN (Visto en clase: @media y viewport)
+   ========================================================== */
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-areas:
+            "header"
+            "nav"
+            "aside"
+            "main"
+            "footer";
+        gap: 15px;
+        margin: 10px auto;
+    }
+
+    header.item1 {
+        font-size: 1.5rem;
+        padding: 18px 12px;
+    }
+
+    nav.item2 {
+        justify-content: center;
+    }
+
+    main.item4 {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 12px;
+    }
+}

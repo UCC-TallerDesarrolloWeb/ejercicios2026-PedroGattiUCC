@@ -1,36 +1,37 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Carrito de Compras</title>
-    <link href="https://fonts.googleapis.com/css?family=Inknut+Antiqua" rel="stylesheet">
-    <link href="miEstilo.css" type="text/css" rel="stylesheet">
-    <script type="text/javascript" src="misFunciones.js"></script>
-</head>
-<body onload="cargarCarrito()">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Carrito de compras</title>
+        <link rel="stylesheet" href="catalogo.css" type="text/css">
+        <script type="text/javascript" src="tienda.js"></script>
+    </head>
+    <body class="grid-container" onload="cargarcarrito()">
+        <header class="item1">
+            Carrito de compras
+        </header>
 
-    <header>
-        <h1 style="text-align: center;">Tienda Online</h1>
-        <nav>
-            <ul style="margin: 10px auto;">
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="productos.html">Catálogo</a></li>
-                <li><a href="carrito.html" class="active">Carrito de Compras</a></li>
-            </ul>
+        <nav class="item2">
+            <a href="productos.html">Catálogo de productos</a>
+            <a href="carrito.html" class="activo">Carrito de compras</a>
         </nav>
-    </header>
 
-    <main class="centrado">
-        <h2 style="text-align: center;">Carrito de Compras</h2>
-        <div style="text-align: center; margin-bottom: 20px;">
-            <button type="button" id="btnVaciarCarrito" onclick="vaciarCarrito()">Vaciar Carrito</button>
-        </div>
-        <div id="contenedorCarrito"></div>
-    </main>
+        <aside class="item3">
+            <fieldset>
+                <legend>Acciones</legend>
+                <button type="button" class="btn-vaciar" onclick="vaciarcarrito()">
+                    Vaciar carrito
+                </button>
+                <p id="total-carrito" style="font-weight: bold; margin-top: 15px; font-size: 1.1rem;"></p>
+            </fieldset>
+        </aside>
 
-    <footer>
-        <p style="text-align: center; margin-top: 30px; font-size: 12px;">&copy; 2026 Tienda Online - UCC</p>
-    </footer>
+        <main class="item4" id="mostrar-carrito">
+        </main>
 
-</body>
+        <footer class="item5">
+            Contacto
+        </footer>
+    </body>
 </html>

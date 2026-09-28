@@ -63,35 +63,276 @@ const productos = [
 ];
 
 /**
- * Renderiza dinámicamente las tarjetas de los productos en el catálogo
- * @method mostrarCatalogo
- * @param {Array<Object>} [lista=productos] - Lista de productos a renderizar (por defecto todo el catálogo)
- * @return {void} No retorna ningún valor
+ * Formatea un número al estándar monetario $3.123,45 utilizando Intl.NumberFormat
+ * @method formatearPrecio
+ * @param {number} valor - Importe a formatear
+ * @return {string} Cadena formateada con el signo de pesos y decimales
  */
-let mostrarCatalogo = (lista = productos) => {
-    let contenido = document.getElementById("contenedorProductos");
-    if (!contenido) return;
-
-    if (lista.length === 0) {
-        contenido.innerHTML = "<p style='text-align: center; grid-column: 1 / -1;'>No se encontraron productos que coincidan con los filtros aplicados.</p>";
-        return;
-    }
-
-    let contenidoHTML = "";
-    lista.forEach((prod) => {
-        const index = productos.indexOf(prod);
-        const rutaImg = prod.imagen.startsWith("images/") ? prod.imagen : `images/${prod.imagen}`;
-        contenidoHTML += `
-            <div class="tarjeta-producto">
-                <img src="${rutaImg}" alt="${prod.nombre}">
-                <h3>${prod.nombre}</h3>
-                <p><strong>Precio:</strong> $${prod.precio}</p>
-                <button type="button" onclick="abrirDialog(${index})">Ver detalle de Producto</button>
-                <button type="button" onclick="agregarAlCarrito(${index})">Agregar al carrito</button>
-            </div>
-        `;
-    });
-
-    contenido.innerHTML = contenidoHTML;
+let formatearPrecio = (valor) => {
+  return new Intl.NumberFormat("es-AR", {
+    style: "currency",
+    currency: "ARS",
+    minimumFractionDigits: 2,
+  }).format(valor);
 };
 
+/**
+ * Renderiza dinámicamente las tarjetas de los productos en el catálogo
+ * @method cargarproducto
+ * @param {Array<Object>} [lista=productos] - Lista de productos a renderizar
+ * @return {void}
+ */
+let cargarproducto = (lista = productos) => {
+  const contenedor = document.getElementById("mostrar-catalogo");
+  if (!contenedor) return;
+
+  if (lista.length === 0) {
+    contenedor.innerHTML = "<p style='grid-column: 1 / -1; text-align: center;'>No se encontraron productos coincidentes.</p>";
+    return;
+  }
+
+  let contenido = "";
+  lista.forEach((elemento) => {
+    const id = productos.indexOf(elemento);
+    contenido += `
+      <div>
+        <img src="images/${elemento.imagen}" alt="${elemento.nombre}">
+        <h3>${elemento.nombre}</h3>
+        <p><strong>${formatearPrecio(elemento.precio)}</strong></p>
+        <button type="button" onclick="mostrarmodal(${id})">
+          Ver detalles del producto
+        </button>
+        <button type="button" onclick="agregaralcarrito(${id})">
+          Agregar al carrito
+        </button>
+      </div>
+    `;
+  });
+
+  contenedor.innerHTML = contenido;
+  actualizarContadorCarrito();
+};
+
+/**
+ * Muestra el modal con los detalles del producto seleccionado
+ * @method mostrarmodal
+ * @param {number} id - Índice del producto en el arreglo productos
+ * @return {void}
+ */
+let mostrarmodal = (id) => {
+  const modal = document.getElementById("modal");
+  const titulo = document.getElementById("titulo-producto");
+  const descripcion = document.getElementById("descripcion-producto");
+
+  if (productos[id]) {
+    if (titulo) titulo.innerText = productos[id].nombre;
+    if (descripcion) descripcion.innerText = `${productos[id].description} - Marca: ${productos[id].marca} - Talles: ${productos[id].talle.join(", ")}`;
+  }
+
+  if (modal) {
+    if (typeof modal.showModal === "function") {
+      modal.showModal();
+    } else {
+      modal.style.display = "block";
+    }
+  }
+};
+
+/**
+ * Cierra la ventana modal de detalles de producto
+ * @method cerrarmodal
+ * @return {void}
+ */
+let cerrarmodal = () => {
+  const modal = document.getElementById("modal");
+  if (modal) {
+    if (typeof modal.close === "function") {
+      modal.close();
+    } else {
+      modal.style.display = "none";
+    }
+  }
+};
+
+/**
+ * Agrega el identificador del producto al array del carrito en localStorage
+ * @method agregaralcarrito
+ * @param {number} id - Índice del producto en el catálogo
+ * @return {void}
+ */
+let agregaralcarrito = (id) => {
+  let carritolist = localStorage.getItem("carrito");
+  if (carritolist == null) {
+    carritolist = [];
+  } else {
+    carritolist = JSON.parse(carritolist);
+  }
+
+  carritolist.push(id);
+  localStorage.setItem("carrito", JSON.stringify(carritolist));
+  actualizarContadorCarrito();
+  alert(`"${productos[id].nombre}" agregado al carrito.`);
+};
+
+/**
+ * Actualiza la insignia / contador de productos en el enlace al carrito
+ * @method actualizarContadorCarrito
+ * @return {void}
+ */
+let actualizarContadorCarrito = () => {
+  const contadorEl = document.getElementById("contador-carrito");
+  if (!contadorEl) return;
+  const carritolist = localStorage.getItem("carrito");
+  const cantidad = carritolist ? JSON.parse(carritolist).length : 0;
+  contadorEl.innerText = ` (${cantidad})`;
+};
+
+/**
+ * Carga y renderiza el contenido del carrito en la página de carrito
+ * @method cargarcarrito
+ * @return {void}
+ */
+let cargarcarrito = () => {
+  const contenedor = document.getElementById("mostrar-carrito");
+  if (!contenedor) return;
+
+  let carritolist = localStorage.getItem("carrito");
+  let contenido = "";
+
+  if (carritolist == null || JSON.parse(carritolist).length === 0) {
+    contenido = "<div style='grid-column: 1 / -1; text-align: center;'><p>Su carrito está vacío</p></div>";
+    contenedor.innerHTML = contenido;
+    actualizarTotal(0);
+    return;
+  }
+
+  carritolist = JSON.parse(carritolist);
+  let total = 0;
+
+  carritolist.forEach((num, index) => {
+    const prod = productos[num];
+    if (prod) {
+      total += prod.precio;
+      contenido += `
+        <div>
+          <img src="images/${prod.imagen}" alt="${prod.nombre}">
+          <h3>${prod.nombre}</h3>
+          <p><strong>${formatearPrecio(prod.precio)}</strong></p>
+          <button type="button" onclick="eliminardelcarrito(${index})">Eliminar</button>
+        </div>
+      `;
+    }
+  });
+
+  contenedor.innerHTML = contenido;
+  actualizarTotal(total);
+};
+
+/**
+ * Actualiza el indicador visual del monto total a abonar
+ * @method actualizarTotal
+ * @param {number} total - Importe acumulado
+ * @return {void}
+ */
+let actualizarTotal = (total) => {
+  const totalEl = document.getElementById("total-carrito");
+  if (totalEl) {
+    totalEl.innerText = `Total a pagar: ${formatearPrecio(total)}`;
+  }
+};
+
+/**
+ * Elimina un ítem del carrito según su posición en la lista y refresca la vista
+ * @method eliminardelcarrito
+ * @param {number} index - Índice a remover
+ * @return {void}
+ */
+let eliminardelcarrito = (index) => {
+  let carritolist = localStorage.getItem("carrito");
+  if (carritolist) {
+    carritolist = JSON.parse(carritolist);
+    carritolist.splice(index, 1);
+    localStorage.setItem("carrito", JSON.stringify(carritolist));
+  }
+  cargarcarrito();
+};
+
+/**
+ * Vacía por completo el carrito de compras
+ * @method vaciarcarrito
+ * @return {void}
+ */
+let vaciarcarrito = () => {
+  localStorage.removeItem("carrito");
+  cargarcarrito();
+};
+
+/**
+ * Filtra los productos según los valores del formulario de búsqueda y filtros
+ * @method filtrarproductos
+ * @return {void}
+ */
+let filtrarproductos = () => {
+  const searchInput = document.getElementById("search");
+  const minimoInput = document.getElementById("minimo");
+  const maximoInput = document.getElementById("maximo");
+  const selectMarca = document.getElementById("marca");
+  const selectOrden = document.getElementById("orden");
+
+  const texto = searchInput ? searchInput.value.trim().toLowerCase() : "";
+  const min = minimoInput && minimoInput.value !== "" ? parseFloat(minimoInput.value) : null;
+  const max = maximoInput && maximoInput.value !== "" ? parseFloat(maximoInput.value) : null;
+  const marca = selectMarca ? selectMarca.value : "";
+  const orden = selectOrden ? selectOrden.value : "";
+
+  const checkedCategories = Array.from(
+    document.querySelectorAll("input[name='tipo']:checked")
+  ).map((cb) => cb.value.toLowerCase());
+
+  let resultado = productos.filter((prod) => {
+    // Filtro por texto en nombre o descripción
+    if (texto && !prod.nombre.toLowerCase().includes(texto) && !prod.description.toLowerCase().includes(texto)) {
+      return false;
+    }
+    // Filtro por precio mínimo
+    if (min !== null && prod.precio < min) {
+      return false;
+    }
+    // Filtro por precio máximo
+    if (max !== null && prod.precio > max) {
+      return false;
+    }
+    // Filtro por categoría
+    if (checkedCategories.length > 0 && !checkedCategories.includes(prod.categoria.toLowerCase())) {
+      return false;
+    }
+    // Filtro por marca
+    if (marca && prod.marca !== marca) {
+      return false;
+    }
+    return true;
+  });
+
+  // Ordenar catálogo si se seleccionó una opción
+  if (orden === "precio-asc") {
+    resultado.sort((a, b) => a.precio - b.precio);
+  } else if (orden === "precio-desc") {
+    resultado.sort((a, b) => b.precio - a.precio);
+  } else if (orden === "nombre-asc") {
+    resultado.sort((a, b) => a.nombre.localeCompare(b.nombre));
+  } else if (orden === "nombre-desc") {
+    resultado.sort((a, b) => b.nombre.localeCompare(a.nombre));
+  }
+
+  cargarproducto(resultado);
+};
+
+// Aliases para compatibilidad con llamadas camelCase
+let cargarProductos = cargarproducto;
+let agregarAlCarrito = agregaralcarrito;
+let cargarCarrito = cargarcarrito;
+let eliminarDelCarrito = eliminardelcarrito;
+let vaciarCarrito = vaciarcarrito;
+let filtrarProductos = filtrarproductos;
+let abrirDialog = mostrarmodal;
+let cerrarDialog = cerrarmodal;
