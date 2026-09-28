@@ -55,16 +55,16 @@
 -  [x] Mostrar/Ocultar div
 -  [x] Mostrar/Ocultar Dialog
 -  [x] Operaciones Matemáticas
--  [ ] Conversor de Unidades II
--  [ ] Operaciones Matemáticas II
+-  [x] Conversor de Unidades II
+-  [x] Operaciones Matemáticas II
 -  [x] Renderizado Dinámico
 -  [x] Renderizado Dinámico del Dialog
 -  [x] Carrito de Compras con localstorage
 -  [x] Vaciar Carrito y Eliminar Producto
--  [ ] Filter
--  [ ] Formatear Precio
--  [ ] Total y Cantidad de Productos
--  [ ] Ordenar el catálogo
+-  [x] Filter
+-  [x] Formatear Precio
+-  [x] Total y Cantidad de Productos
+-  [x] Ordenar el catálogo
 
 ## Unidad 4: Funcionamiento del Navegador y Herramientas de Desarrollo
 -  [ ] Checkeo de accesiilidad: AXE
