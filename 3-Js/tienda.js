@@ -63,42 +63,19 @@ const productos = [
 ];
 
 /**
- * Formatea un número al estándar monetario $3.123,45 utilizando Intl.NumberFormat
- * @method formatearPrecio
- * @param {number} valor - Importe a formatear
- * @return {string} Cadena formateada
- */
-let formatearPrecio = (valor) => {
-  return new Intl.NumberFormat("es-AR", {
-    style: "currency",
-    currency: "ARS",
-    minimumFractionDigits: 2,
-  }).format(valor);
-};
-
-/**
  * Renderiza dinámicamente las tarjetas de los productos en el catálogo
  * @method cargarproducto
- * @param {Array<Object>} [lista=productos] - Lista de productos a renderizar
  * @return {void}
  */
-let cargarproducto = (lista = productos) => {
-  const contenedor = document.getElementById("mostrar-catalogo");
-  if (!contenedor) return;
-
-  if (lista.length === 0) {
-    contenedor.innerHTML = "<p>No se encontraron productos coincidentes.</p>";
-    return;
-  }
-
+let cargarproducto = () => {
   let contenido = "";
-  lista.forEach((elemento) => {
-    const id = productos.indexOf(elemento);
+
+  productos.forEach((elemento, id) => {
     contenido += `
       <div>
         <img src="images/${elemento.imagen}" alt="${elemento.nombre}">
         <h3>${elemento.nombre}</h3>
-        <p>${formatearPrecio(elemento.precio)}</p>
+        <p>${elemento.precio}</p>
         <button type="button" onclick="mostrarmodal(${id})">
           Ver detalles del producto
         </button>
@@ -109,55 +86,13 @@ let cargarproducto = (lista = productos) => {
     `;
   });
 
-  contenedor.innerHTML = contenido;
-  actualizarContadorCarrito();
+  document.getElementById("mostrar-catalogo").innerHTML = contenido;
 };
 
 /**
- * Muestra el modal con los detalles del producto seleccionado
- * @method mostrarmodal
- * @param {number} id - Índice del producto
- * @return {void}
- */
-let mostrarmodal = (id) => {
-  const modal = document.getElementById("modal");
-  const titulo = document.getElementById("titulo-producto");
-  const descripcion = document.getElementById("descripcion-producto");
-
-  if (productos[id]) {
-    if (titulo) titulo.innerText = productos[id].nombre;
-    if (descripcion) descripcion.innerText = `${productos[id].description} - Marca: ${productos[id].marca} - Talles: ${productos[id].talle.join(", ")}`;
-  }
-
-  if (modal) {
-    if (typeof modal.showModal === "function") {
-      modal.showModal();
-    } else {
-      modal.style.display = "block";
-    }
-  }
-};
-
-/**
- * Cierra la ventana modal de detalles de producto
- * @method cerrarmodal
- * @return {void}
- */
-let cerrarmodal = () => {
-  const modal = document.getElementById("modal");
-  if (modal) {
-    if (typeof modal.close === "function") {
-      modal.close();
-    } else {
-      modal.style.display = "none";
-    }
-  }
-};
-
-/**
- * Agrega el identificador del producto al array del carrito en localStorage
+ * Agrega el id del producto al carrito en localStorage
  * @method agregaralcarrito
- * @param {number} id - Índice del producto
+ * @param {number} id - Posición del producto en el array productos
  * @return {void}
  */
 let agregaralcarrito = (id) => {
@@ -169,96 +104,61 @@ let agregaralcarrito = (id) => {
   }
 
   carritolist.push(id);
+  console.log(carritolist);
   localStorage.setItem("carrito", JSON.stringify(carritolist));
-  actualizarContadorCarrito();
-  alert(`"${productos[id].nombre}" agregado al carrito.`);
 };
 
 /**
- * Actualiza el indicador visual del carrito
- * @method actualizarContadorCarrito
+ * Muestra el modal con la información del producto
+ * @method mostrarmodal
+ * @param {number} id - Posición del producto
  * @return {void}
  */
-let actualizarContadorCarrito = () => {
-  const contadorEl = document.getElementById("contador-carrito");
-  if (!contadorEl) return;
-  const carritolist = localStorage.getItem("carrito");
-  const cantidad = carritolist ? JSON.parse(carritolist).length : 0;
-  contadorEl.innerText = ` (${cantidad})`;
+let mostrarmodal = (id) => {
+  document.getElementById("titulo-producto").innerText = productos[id].nombre;
+  document.getElementById("descripcion-producto").innerText = productos[id].description;
+  document.getElementById("modal").style.display = "block";
 };
 
 /**
- * Carga y renderiza el contenido del carrito en la página de carrito
+ * Cierra la ventana modal de producto
+ * @method cerrarmodal
+ * @return {void}
+ */
+let cerrarmodal = () => {
+  document.getElementById("modal").style.display = "none";
+};
+
+/**
+ * Renderiza los productos guardados en el carrito
  * @method cargarcarrito
  * @return {void}
  */
 let cargarcarrito = () => {
-  const contenedor = document.getElementById("mostrar-carrito");
-  if (!contenedor) return;
-
   let carritolist = localStorage.getItem("carrito");
   let contenido = "";
 
   if (carritolist == null || JSON.parse(carritolist).length === 0) {
     contenido = "<div>Su carrito está vacío</div>";
-    contenedor.innerHTML = contenido;
-    actualizarTotal(0);
-    return;
-  }
-
-  carritolist = JSON.parse(carritolist);
-  let total = 0;
-
-  carritolist.forEach((num, index) => {
-    const prod = productos[num];
-    if (prod) {
-      total += prod.precio;
+  } else {
+    carritolist = JSON.parse(carritolist);
+    carritolist.forEach((num, index) => {
       contenido += `
         <div>
-          <img src="images/${prod.imagen}" alt="${prod.nombre}">
-          <h3>${prod.nombre}</h3>
-          <p>${formatearPrecio(prod.precio)}</p>
-          <button type="button" onclick="eliminardelcarrito(${index})">Eliminar</button>
+          <img src="images/${productos[num].imagen}" alt="${productos[num].nombre}">
+          <h3>${productos[num].nombre}</h3>
+          <p>${productos[num].precio}</p>
+          <button type="button" onclick="eliminardelcarrito(${index})">Eliminar el producto</button>
         </div>
       `;
-    }
-  });
-
-  contenedor.innerHTML = contenido;
-  actualizarTotal(total);
-};
-
-/**
- * Actualiza el total a pagar
- * @method actualizarTotal
- * @param {number} total
- * @return {void}
- */
-let actualizarTotal = (total) => {
-  const totalEl = document.getElementById("total-carrito");
-  if (totalEl) {
-    totalEl.innerText = `Total a pagar: ${formatearPrecio(total)}`;
+    });
   }
+
+  document.getElementById("mostrar-carrito").innerHTML = contenido;
 };
 
 /**
- * Elimina un ítem del carrito
- * @method eliminardelcarrito
- * @param {number} index
- * @return {void}
- */
-let eliminardelcarrito = (index) => {
-  let carritolist = localStorage.getItem("carrito");
-  if (carritolist) {
-    carritolist = JSON.parse(carritolist);
-    carritolist.splice(index, 1);
-    localStorage.setItem("carrito", JSON.stringify(carritolist));
-  }
-  cargarcarrito();
-};
-
-/**
- * Vacía por completo el carrito de compras
+ * Vacía por completo el carrito de compras usando localStorage.removeItem
  * @method vaciarcarrito
  * @return {void}
  */
@@ -268,65 +168,17 @@ let vaciarcarrito = () => {
 };
 
 /**
- * Filtra los productos según los valores de los filtros
- * @method filtrarproductos
+ * Elimina un producto del array del carrito usando splice
+ * @method eliminardelcarrito
+ * @param {number} pos - Posición en el array a eliminar
  * @return {void}
  */
-let filtrarproductos = () => {
-  const searchInput = document.getElementById("search");
-  const minimoInput = document.getElementById("minimo");
-  const maximoInput = document.getElementById("maximo");
-  const selectMarca = document.getElementById("marca");
-  const selectOrden = document.getElementById("orden");
-
-  const texto = searchInput ? searchInput.value.trim().toLowerCase() : "";
-  const min = minimoInput && minimoInput.value !== "" ? parseFloat(minimoInput.value) : null;
-  const max = maximoInput && maximoInput.value !== "" ? parseFloat(maximoInput.value) : null;
-  const marca = selectMarca ? selectMarca.value : "";
-  const orden = selectOrden ? selectOrden.value : "";
-
-  const checkedCategories = Array.from(
-    document.querySelectorAll("input[name='tipo']:checked")
-  ).map((cb) => cb.value.toLowerCase());
-
-  let resultado = productos.filter((prod) => {
-    if (texto && !prod.nombre.toLowerCase().includes(texto) && !prod.description.toLowerCase().includes(texto)) {
-      return false;
-    }
-    if (min !== null && prod.precio < min) {
-      return false;
-    }
-    if (max !== null && prod.precio > max) {
-      return false;
-    }
-    if (checkedCategories.length > 0 && !checkedCategories.includes(prod.categoria.toLowerCase())) {
-      return false;
-    }
-    if (marca && prod.marca !== marca) {
-      return false;
-    }
-    return true;
-  });
-
-  if (orden === "precio-asc") {
-    resultado.sort((a, b) => a.precio - b.precio);
-  } else if (orden === "precio-desc") {
-    resultado.sort((a, b) => b.precio - a.precio);
-  } else if (orden === "nombre-asc") {
-    resultado.sort((a, b) => a.nombre.localeCompare(b.nombre));
-  } else if (orden === "nombre-desc") {
-    resultado.sort((a, b) => b.nombre.localeCompare(a.nombre));
+let eliminardelcarrito = (pos) => {
+  let carritolist = localStorage.getItem("carrito");
+  if (carritolist != null) {
+    carritolist = JSON.parse(carritolist);
+    carritolist.splice(pos, 1);
+    localStorage.setItem("carrito", JSON.stringify(carritolist));
+    cargarcarrito();
   }
-
-  cargarproducto(resultado);
 };
-
-// Aliases para compatibilidad
-let cargarProductos = cargarproducto;
-let agregarAlCarrito = agregaralcarrito;
-let cargarCarrito = cargarcarrito;
-let eliminarDelCarrito = eliminardelcarrito;
-let vaciarCarrito = vaciarcarrito;
-let filtrarProductos = filtrarproductos;
-let abrirDialog = mostrarmodal;
-let cerrarDialog = cerrarmodal;

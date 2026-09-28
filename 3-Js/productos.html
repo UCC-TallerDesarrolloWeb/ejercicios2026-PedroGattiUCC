@@ -2,74 +2,54 @@
 <html lang="es">
     <head>
         <meta charset="UTF-8">
-        <title>Catálogo de productos</title>
+        <title>catalogo de producto</title>
         <link rel="stylesheet" href="catalogo.css" type="text/css">
         <script type="text/javascript" src="tienda.js"></script>
     </head>
     <body class="grid-container" onload="cargarproducto()">
         <header class="item1">
-            Catálogo de productos
+            catalogo de productos
         </header>
 
         <nav class="item2">
-            <a href="productos.html">Catálogo de productos</a>
-            <a href="carrito.html">Carrito de compras<span id="contador-carrito"></span></a>
+            <a href="productos.html">catalogo de productos</a>
+            <a href="carrito.html">carrito de compras</a>
         </nav>
 
         <aside class="item3">
-            <form name="filtrer" onsubmit="event.preventDefault();">
+            <form name="filtrer">
                 <fieldset>
-                    <legend>Búsqueda</legend>
-                    <label for="search">Buscar:</label>
-                    <input type="text" name="search" id="search" oninput="filtrarproductos()">
+                    <legend>busqueda</legend>
+                    <label for="search">buscar:</label>
+                    <input type="text" name="search" id="search">
                 </fieldset>
 
                 <fieldset>
-                    <legend>Precios:</legend>
+                    <legend>precios:</legend>
                     <p>
-                        <label for="minimo">Mínimo:</label>
-                        <input type="number" id="minimo" name="precio-min" min="0" oninput="filtrarproductos()">
+                        <label>minimo</label>
+                        <input type="number" id="minimo" name="precio-min" min="0">
                     </p>
                     <p>
-                        <label for="maximo">Máximo:</label> 
-                        <input type="number" id="maximo" name="precio-max" min="0" oninput="filtrarproductos()">
-                    </p>
-                </fieldset>
-
-                <fieldset>
-                    <legend>Tipo de productos:</legend>
-                    <p>
-                        <input type="checkbox" id="protectores" name="tipo" value="protectores" onchange="filtrarproductos()">
-                        <label for="protectores">Protectores</label>
-                    </p>
-                    <p>
-                        <input type="checkbox" name="tipo" id="entrenamiento" value="entrenamiento" onchange="filtrarproductos()">
-                        <label for="entrenamiento">Entrenamiento</label>
-                    </p>
-                    <p>
-                        <input type="checkbox" name="tipo" id="dobok" value="dobok" onchange="filtrarproductos()">
-                        <label for="dobok">Dobok</label>
+                        <label for="maximo">maximo:</label> 
+                        <input type="number" id="maximo" name="precio-max" min="0">
                     </p>
                 </fieldset>
 
                 <fieldset>
-                    <legend>Marca:</legend>
-                    <select id="marca" onchange="filtrarproductos()">
-                        <option value="">Todas</option>
-                        <option value="Gran Marc">Gran Marc</option>
-                        <option value="Daedo">Daedo</option>
-                    </select>
-                </fieldset>
-
-                <fieldset>
-                    <legend>Ordenar:</legend>
-                    <select id="orden" onchange="filtrarproductos()">
-                        <option value="">Por defecto</option>
-                        <option value="precio-asc">Precio: Menor a Mayor</option>
-                        <option value="precio-desc">Precio: Mayor a Menor</option>
-                        <option value="nombre-asc">Nombre: A - Z</option>
-                        <option value="nombre-desc">Nombre: Z - A</option>
-                    </select>
+                    <legend>tipo de productos:</legend>
+                    <p>
+                        <input type="checkbox" id="protectores" name="tipo" value="protectores">
+                        <label for="protectores">protectores</label>
+                    </p>
+                    <p>
+                        <input type="checkbox" name="tipo" id="entrenamiento" value="entrenamiento">
+                        <label for="entrenamiento">entrenamiento</label>
+                    </p>
+                    <p>
+                        <input type="checkbox" name="tipo" id="dobok" value="dobok">
+                        <label for="dobok">dobok</label>
+                    </p>
                 </fieldset>
             </form>
         </aside>
@@ -85,7 +65,7 @@
         </main>
 
         <footer class="item5">
-            Contacto
+            contacto
         </footer>
     </body>
 </html>
